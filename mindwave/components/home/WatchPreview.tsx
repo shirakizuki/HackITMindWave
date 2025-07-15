@@ -12,7 +12,7 @@ const WatchPreview: React.FC<WatchPreviewProps> = ({
 }) => {
     return (
         <View style={styles.watchContainer}>
-            <Text style={styles.watchTitle}>MindMeter Watch</Text>
+            <Text style={styles.watchTitle}>MindWave Watch Overview</Text>
             <View style={styles.watchBody}>
                 <View style={styles.watchBand} />
                 <View style={styles.watchScreen}>

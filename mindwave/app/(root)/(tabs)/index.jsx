@@ -15,7 +15,7 @@ import { useAuth } from '../../../context/AuthContext';
 
 const MindWatchApp = () => {
     const { user } = useAuth();
-    const baseUrl = 'http://192.168.8.11:8000';
+    const baseUrl = 'https://hackitmindwave.onrender.com';
     const [mfiValue, setMfiValue] = useState(0);
     const [averages, setAverages] = useState({});
     const [data, setData] = useState([]);
