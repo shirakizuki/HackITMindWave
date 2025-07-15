@@ -7,9 +7,9 @@ export function simulateWearableData() {
             +(Math.random() * 4 - 2).toFixed(4),
             +(Math.random() * 4 - 2).toFixed(4),
         ]);
-        bvp.push([+(0.5 + Math.random() * 1.5).toFixed(4)]);
+        bvp.push([+(-2 + Math.random() * 7).toFixed(4)]);
         eda.push([+(0.1 + Math.random() * 2.9).toFixed(4)]);
-        temp.push([+(30 + Math.random() * 7).toFixed(4)]);
+        temp.push([+(28 + Math.random() * 10).toFixed(4)]);
     }
 
     const avg = (arr) => arr.reduce((sum, [val]) => sum + val, 0) / arr.length;

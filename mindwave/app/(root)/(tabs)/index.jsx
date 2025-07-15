@@ -1,8 +1,8 @@
+import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { SafeAreaView,ScrollView, StatusBar, Text, TouchableOpacity, View} from 'react-native';
-import { Feather, FontAwesome5 } from '@expo/vector-icons';
+import { SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import FatigueMeter from '../../../components/home/FatigueMeter';
 import TrendChart from '../../../components/home/TrendChart';
 import VitalCard from '../../../components/home/VitalCard';
@@ -24,14 +24,23 @@ const MindWatchApp = () => {
 
     useFocusEffect(
         useCallback(() => {
-            setTimeout(() => {
-                if (data.length == 0) {
-                    const { data, averages } = simulateWearableData();
-                    setAverages(averages);
-                    setData(data)
-                }
-            }, 5000)
+            let timer
+
+            const simulateData = () => {
+                timer = setTimeout(() => {
+                    if (data.length == 0) {
+                        setHasPredicted(false)
+                        const { data, averages } = simulateWearableData();
+                        setAverages(averages);
+                        setData(data)
+                        simulateData();
+                    }
+                }, 3000)
+
+            }
+            simulateData()
             return () => {
+                clearTimeout(timer)
                 setAverages({});
                 setMfiValue(0);
                 setData([]);
@@ -42,8 +51,6 @@ const MindWatchApp = () => {
 
     useEffect(() => {
         if (hasPredicted == false && data.length != 0) {
-            console.log("Predicting");
-
             predict(data)
             setHasPredicted(true)
         }
