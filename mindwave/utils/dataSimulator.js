@@ -11,7 +11,6 @@ export function simulateWearableData() {
         eda.push([+(0.1 + Math.random() * 2.9).toFixed(4)]);
         temp.push([+(30 + Math.random() * 7).toFixed(4)]);
     }
-    const data = [acc, bvp, eda, temp];
 
     const avg = (arr) => arr.reduce((sum, [val]) => sum + val, 0) / arr.length;
     const avgAcc = (index) => acc.reduce((sum, row) => sum + row[index], 0) / acc.length;
