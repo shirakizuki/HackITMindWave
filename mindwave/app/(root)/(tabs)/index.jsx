@@ -32,11 +32,13 @@ const MindWatchApp = () => {
 
     useFocusEffect(
         useCallback(() => {
-            if (data.length == 0) {
-                const { data, averages } = simulateWearableData();
-                setAverages(averages);
-                setData(data)
-            }
+            setTimeout(() => {
+                if (data.length == 0) {
+                    const { data, averages } = simulateWearableData();
+                    setAverages(averages);
+                    setData(data)
+                }
+            }, 5000)
             return () => {
                 setAverages({});
                 setMfiValue(0);
@@ -160,10 +162,10 @@ const MindWatchApp = () => {
                         <TrendChart />
                     </View>
                     <View style={styles.card}>
-                      <WatchPreview
-                        currentTime={currentTime}
-                        watchMFI={watchMFI}
-                      />
+                        <WatchPreview
+                            currentTime={currentTime}
+                            watchMFI={watchMFI}
+                        />
                     </View>
                 </ScrollView>
             </LinearGradient>
