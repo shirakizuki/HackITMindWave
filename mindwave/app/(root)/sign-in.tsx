@@ -63,7 +63,7 @@ export default function LoginScreen() {
                         <View style={styles.logo}>
                             <Feather name="activity" size={40} color="#fff" />
                         </View>
-                        <Text style={styles.title}>MindWatch Pro</Text>
+                        <Text style={styles.title}>MindWave</Text>
                         <Text style={styles.subtitle}>Advanced Mental Wellness Platform</Text>
                     </View>
 

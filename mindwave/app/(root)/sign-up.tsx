@@ -69,12 +69,12 @@ export default function SignupScreen() {
                         <View style={styles.logo}>
                             <Feather name="activity" size={40} color="#fff" />
                         </View>
-                        <Text style={styles.title}>MindWatch Pro</Text>
+                        <Text style={styles.title}>MindWave</Text>
                         <Text style={styles.subtitle}>Advanced Mental Wellness Platform</Text>
                     </View>
 
                     <View style={styles.card}>
-                        <Text style={styles.title}>Join MindWatch Pro</Text>
+                        <Text style={styles.title}>Join MindWave</Text>
                         <Text style={styles.subtitle}>Create your account to get started</Text>
 
                         {/* Full Name */}
