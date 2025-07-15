@@ -1,12 +1,70 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, StatusBar, Switch, } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, StatusBar, Switch, Alert, Modal, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+
+import { useAuth } from '../../context/AuthContext';
 import { FontAwesome5, MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 const ProfileScreen = () => {
+  const { user, logout } = useAuth();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(true);
   const [dataSharingEnabled, setDataSharingEnabled] = useState(true);
+  const [showAddContactModal, setShowAddContactModal] = useState(false);
+  const [newContactName, setNewContactName] = useState('');
+  const [newContactRole, setNewContactRole] = useState('');
+  const [newContactNumber, setNewContactNumber] = useState('');
+  const [contacts, setContacts] = useState([
+    {
+      id: 1,
+      icon: "DR",
+      name: "Dr. Rebecca Chen",
+      role: "Primary Physician",
+      iconBg: "#6366f1"
+    },
+    {
+      id: 2,
+      icon: "MS",
+      name: "Mary Smith",
+      role: "Emergency Contact",
+      iconBg: "#6366f1"
+    }
+  ]);
+
+  const handleSignOut = () => {
+    // Handle any sign out logic here 
+    router.replace('/sign-in');
+  };
+
+  const handleAddContact = () => {
+    setShowAddContactModal(true);
+  };
+
+  const handleSaveContact = () => {
+    if (newContactName.trim() && newContactRole.trim()) {
+      const newContact = {
+        id: contacts.length + 1,
+        icon: newContactName.trim().split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2),
+        name: newContactName.trim(),
+        role: newContactRole.trim(),
+        iconBg: "#6366f1"
+      };
+      setContacts([...contacts, newContact]);
+      setNewContactName('');
+      setNewContactRole('');
+      setShowAddContactModal(false);
+      Alert.alert("Success", `${newContactName.trim()} has been added to your contacts.`);
+    } else {
+      Alert.alert("Error", "Please fill in both name and role fields.");
+    }
+  };
+
+  const handleCancelAddContact = () => {
+    setNewContactName('');
+    setNewContactRole('');
+    setShowAddContactModal(false);
+  };
 
   const ContactCard = ({ icon, name, role, iconBg }: {
     icon: string;
@@ -28,11 +86,11 @@ const ProfileScreen = () => {
     </TouchableOpacity>
   );
 
-  const SettingItem = ({ 
-    title, 
-    subtitle, 
-    value, 
-    onValueChange 
+  const SettingItem = ({
+    title,
+    subtitle,
+    value,
+    onValueChange
   }: {
     title: string;
     subtitle: string;
@@ -68,14 +126,14 @@ const ProfileScreen = () => {
         colors={['#0f172a', '#1e1b4b']}
         style={styles.gradient}
       >
-        <ScrollView 
+        <ScrollView
           style={styles.scrollView}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
           {/* Header */}
           <View style={styles.header}>
-            <TouchableOpacity style={styles.backButton}>
+            <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
               <Ionicons name="chevron-back" size={24} color="#fff" />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Profile</Text>
@@ -86,11 +144,13 @@ const ProfileScreen = () => {
           <View style={styles.profileSection}>
             <View style={styles.profileCard}>
               <View style={styles.avatar}>
-                <Text style={styles.avatarText}>JS</Text>
+                <Text style={styles.avatarText}>
+                  {user?.name ? user.name.substring(0, 2).toUpperCase() : 'U'}
+                </Text>
               </View>
               <View style={styles.profileInfo}>
-                <Text style={styles.profileName}>John Smith</Text>
-                <Text style={styles.profileEmail}>john.smith@example.com</Text>
+                <Text style={styles.profileName}>{user?.name || 'User'}</Text>
+                <Text style={styles.profileEmail}>{user?.email || 'user@example.com'}</Text>
               </View>
             </View>
           </View>
@@ -109,21 +169,20 @@ const ProfileScreen = () => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Care Contacts</Text>
             <View style={styles.card}>
-              <ContactCard
-                icon="DR"
-                name="Dr. Rebecca Chen"
-                role="Primary Physician"
-                iconBg="#6366f1"
-              />
-              <View style={styles.contactDivider} />
-              <ContactCard
-                icon="MS"
-                name="Mary Smith"
-                role="Emergency Contact"
-                iconBg="#6366f1"
-              />
+              {contacts.map((contact, index) => (
+                <React.Fragment key={contact.id}>
+                  <ContactCard
+                    icon={contact.icon}
+                    name={contact.name}
+                    role={contact.role}
+                    iconBg={contact.iconBg}
+                  />
+                  {index < contacts.length - 1 && <View style={styles.contactDivider} />}
+                </React.Fragment>
+              ))}
               
-              <TouchableOpacity style={styles.addContactButton}>
+              <View style={styles.contactDivider} />
+              <TouchableOpacity style={styles.addContactButton} onPress={handleAddContact}>
                 <Ionicons name="add" size={20} color="#6366f1" />
                 <Text style={styles.addContactText}>Add Contact</Text>
               </TouchableOpacity>
@@ -167,9 +226,9 @@ const ProfileScreen = () => {
                 </View>
                 <Ionicons name="chevron-forward" size={20} color="#9ca3af" />
               </TouchableOpacity>
-              
+
               <View style={styles.settingDivider} />
-              
+
               <TouchableOpacity style={styles.menuItem}>
                 <View style={styles.menuItemLeft}>
                   <FontAwesome5 name="question-circle" size={18} color="#6366f1" />
@@ -177,10 +236,10 @@ const ProfileScreen = () => {
                 </View>
                 <Ionicons name="chevron-forward" size={20} color="#9ca3af" />
               </TouchableOpacity>
-              
+
               <View style={styles.settingDivider} />
               
-              <TouchableOpacity style={styles.menuItem}>
+              <TouchableOpacity style={styles.menuItem} onPress={handleSignOut}>
                 <View style={styles.menuItemLeft}>
                   <FontAwesome5 name="sign-out-alt" size={18} color="#ef4444" />
                   <Text style={[styles.menuItemText, { color: '#ef4444' }]}>Sign Out</Text>
@@ -191,6 +250,56 @@ const ProfileScreen = () => {
           </View>
         </ScrollView>
       </LinearGradient>
+
+      {/* Add Contact Modal */}
+      <Modal
+        visible={showAddContactModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={handleCancelAddContact}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Add New Contact</Text>
+            
+            <Text style={styles.inputLabel}>Full Name</Text>
+            <TextInput
+              style={styles.textInput}
+              value={newContactName}
+              onChangeText={setNewContactName}
+              placeholder="Enter contact name"
+              placeholderTextColor="rgba(255, 255, 255, 0.5)"
+            />
+            
+            <Text style={styles.inputLabel}>Contact Number</Text>
+            <TextInput
+              style={styles.textInput}
+              value={newContactNumber}
+              onChangeText={setNewContactNumber}
+              placeholder="+63 XXXXXXXXXX"
+              placeholderTextColor="rgba(255, 255, 255, 0.5)"
+            />
+
+            <Text style={styles.inputLabel}>Role/Relationship</Text>
+            <TextInput
+              style={styles.textInput}
+              value={newContactRole}
+              onChangeText={setNewContactRole}
+              placeholder="e.g., Doctor, Emergency Contact"
+              placeholderTextColor="rgba(255, 255, 255, 0.5)"
+            />
+            
+            <View style={styles.modalButtons}>
+              <TouchableOpacity style={styles.modalCancelButton} onPress={handleCancelAddContact}>
+                <Text style={styles.modalCancelText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalSaveButton} onPress={handleSaveContact}>
+                <Text style={styles.modalSaveText}>Add Contact</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -407,6 +516,76 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#fff',
     marginLeft: 12,
+  },
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalContent: {
+    backgroundColor: 'rgba(30, 41, 59, 0.95)',
+    borderRadius: 20,
+    padding: 24,
+    width: '100%',
+    maxWidth: 400,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  inputLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#fff',
+    marginBottom: 8,
+    marginTop: 16,
+  },
+  textInput: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 12,
+    padding: 16,
+    fontSize: 16,
+    color: '#fff',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 24,
+    gap: 12,
+  },
+  modalCancelButton: {
+    flex: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 12,
+    padding: 16,
+    alignItems: 'center',
+  },
+  modalCancelText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#fff',
+  },
+  modalSaveButton: {
+    flex: 1,
+    backgroundColor: '#6366f1',
+    borderRadius: 12,
+    padding: 16,
+    alignItems: 'center',
+  },
+  modalSaveText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#fff',
   },
 });
 

@@ -1,0 +1,5 @@
+fastapi
+pydantic
+numpy
+tensorflow>=2.13.0
+uvicron>=0.29

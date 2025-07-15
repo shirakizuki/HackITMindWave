@@ -1,6 +1,6 @@
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import FatigueMeter from '../../../components/home/FatigueMeter';
@@ -10,10 +10,11 @@ import WatchPreview from '../../../components/home/WatchPreview';
 import styles from '../../../styles/mindWatchStyles';
 import { simulateWearableData } from '../../../utils/dataSimulator';
 import { predictMFI } from '../../../utils/mfiPrediction';
-
+import { useAuth } from '../../../context/AuthContext';
 
 
 const MindWatchApp = () => {
+    const { user } = useAuth();
     const baseUrl = 'http://192.168.8.11:8000';
     const [mfiValue, setMfiValue] = useState(0);
     const [averages, setAverages] = useState({});
@@ -82,8 +83,10 @@ const MindWatchApp = () => {
                             <TouchableOpacity style={styles.actionButton}>
                                 <Text style={styles.actionIcon}>🔔</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.actionButton}>
-                                <Text style={styles.profileIcon}>JS</Text>
+                            <TouchableOpacity style={styles.actionButton} onPress={() => router.push('/(root)/profile')}>
+                                <Text style={styles.profileIcon}>
+                                    {user?.name ? user.name.substring(0, 2).toUpperCase() : 'U'}
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
