@@ -55,7 +55,7 @@ const WatchPreview: React.FC<WatchPreviewProps> = ({
                 <View style={styles.watchBandBottom} />
             </View>
             <View style={styles.watchInfo}>
-                <Text style={styles.watchInfoTitle}>MindMeter Watch</Text>
+                <Text style={styles.watchInfoTitle}>MindWave Watch</Text>
                 <Text style={styles.watchInfoSubtitle}>
                     Mental Focus Intelligence • Connected • Battery 78%
                 </Text>

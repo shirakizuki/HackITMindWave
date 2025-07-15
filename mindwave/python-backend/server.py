@@ -14,7 +14,6 @@ app = FastAPI()
 @app.post("/predict")
 async def predict(input: PredictionInput):
     try:
-        print("ASD")
         acc = np.expand_dims(np.array(input.data[0], dtype=np.float32), axis=0)
         bvp = np.expand_dims(np.array(input.data[1], dtype=np.float32), axis=0)
         eda = np.expand_dims(np.array(input.data[2], dtype=np.float32), axis=0)
