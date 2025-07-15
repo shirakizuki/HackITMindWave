@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView,ScrollView, StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
@@ -75,8 +75,8 @@ const MindWatchApp = () => {
                             <TouchableOpacity style={styles.actionButton}>
                                 <Text style={styles.actionIcon}>🔔</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.actionButton}>
-                                <Text style={styles.profileIcon}>JS</Text>
+                            <TouchableOpacity style={styles.actionButton} onPress={() => router.push('/(root)/profile')}>
+                                <Text style={styles.profileIcon}>JS</Text> 
                             </TouchableOpacity>
                         </View>
                     </View>
