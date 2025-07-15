@@ -13,25 +13,40 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
+import { useAuth } from '../../context/AuthContext';
 
 export default function LoginScreen() {
     const router = useRouter();
+    const { login } = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleLogin = () => {
+    // Function to generate a random name
+    const generateRandomName = () => {
+        const firstNames = ['Alex', 'Jordan', 'Taylor', 'Casey', 'Morgan', 'Riley', 'Avery', 'Quinn', 'Sage', 'River'];
+        const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez'];
+        
+        const randomFirst = firstNames[Math.floor(Math.random() * firstNames.length)];
+        const randomLast = lastNames[Math.floor(Math.random() * lastNames.length)];
+        
+        return `${randomFirst} ${randomLast}`;
+    };
+
+    const handleLogin = async () => {
         if (!email || !password) {
             Alert.alert('Please fill in all fields');
             return;
         }
 
-        Alert.alert('Login successful! (This is a demo)');
-        console.log({ email, password });
-
-        // ✅ Navigate to home screen inside tabs
-        router.replace('/(root)/(tabs)');
+        try {
+            const randomName = generateRandomName();
+            await login(email, password, randomName);
+            Alert.alert('Login successful!');
+        } catch (error) {
+            Alert.alert('Login failed', 'Please try again');
+        }
     };
 
 
@@ -48,7 +63,7 @@ export default function LoginScreen() {
                         <View style={styles.logo}>
                             <Feather name="activity" size={40} color="#fff" />
                         </View>
-                        <Text style={styles.title}>MindWave</Text>
+                        <Text style={styles.title}>MindWatch Pro</Text>
                         <Text style={styles.subtitle}>Advanced Mental Wellness Platform</Text>
                     </View>
 
@@ -108,6 +123,7 @@ export default function LoginScreen() {
                             Don't have an account?{' '}
                             <Text
                                 style={styles.signupText}
+                                onPress={() => router.replace('/(root)/sign-up')}
                             >
                                 Sign Up
                             </Text>

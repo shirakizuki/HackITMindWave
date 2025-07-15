@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, StatusBar, Dimensions,} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, StatusBar, Dimensions, } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5, MaterialIcons, Ionicons } from '@expo/vector-icons';
-import Svg, {  Circle,Path,Defs, LinearGradient as SvgLinearGradient, Stop, Line, Text as SvgText,} from 'react-native-svg';
+import Svg, { Circle, Path, Defs, LinearGradient as SvgLinearGradient, Stop, Line, Text as SvgText, } from 'react-native-svg';
 
 const { width } = Dimensions.get('window');
 
@@ -21,14 +21,14 @@ const TrendsScreen = () => {
               <Stop offset="100%" stopColor="#ec4899" stopOpacity="0" />
             </SvgLinearGradient>
           </Defs>
-          
+
           {/* Y-axis labels */}
           <SvgText x="25" y="25" fontSize="10" fill="rgba(255, 255, 255, 0.5)" textAnchor="end">100</SvgText>
           <SvgText x="25" y="60" fontSize="10" fill="rgba(255, 255, 255, 0.5)" textAnchor="end">75</SvgText>
           <SvgText x="25" y="95" fontSize="10" fill="rgba(255, 255, 255, 0.5)" textAnchor="end">50</SvgText>
           <SvgText x="25" y="130" fontSize="10" fill="rgba(255, 255, 255, 0.5)" textAnchor="end">25</SvgText>
           <SvgText x="25" y="165" fontSize="10" fill="rgba(255, 255, 255, 0.5)" textAnchor="end">0</SvgText>
-          
+
           {/* X-axis labels */}
           <SvgText x="50" y="185" fontSize="10" fill="rgba(255, 255, 255, 0.5)" textAnchor="middle">6AM</SvgText>
           <SvgText x="90" y="185" fontSize="10" fill="rgba(255, 255, 255, 0.5)" textAnchor="middle">9AM</SvgText>
@@ -37,29 +37,29 @@ const TrendsScreen = () => {
           <SvgText x="210" y="185" fontSize="10" fill="rgba(255, 255, 255, 0.5)" textAnchor="middle">6PM</SvgText>
           <SvgText x="250" y="185" fontSize="10" fill="rgba(255, 255, 255, 0.5)" textAnchor="middle">9PM</SvgText>
           <SvgText x="290" y="185" fontSize="10" fill="rgba(255, 255, 255, 0.5)" textAnchor="middle">12AM</SvgText>
-          
+
           {/* Grid lines */}
           <Line x1="30" y1="25" x2="300" y2="25" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" />
           <Line x1="30" y1="60" x2="300" y2="60" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" />
           <Line x1="30" y1="95" x2="300" y2="95" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" />
           <Line x1="30" y1="130" x2="300" y2="130" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" />
           <Line x1="30" y1="165" x2="300" y2="165" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" />
-          
+
           {/* Chart area fill */}
-          <Path 
-            d="M50,150 L90,130 L130,110 L170,70 L210,85 L250,95 L290,120 L290,165 L50,165 Z" 
-            fill="url(#chartGradient)" 
+          <Path
+            d="M50,150 L90,130 L130,110 L170,70 L210,85 L250,95 L290,120 L290,165 L50,165 Z"
+            fill="url(#chartGradient)"
           />
-          
+
           {/* Chart line */}
-          <Path 
-            d="M50,150 L90,130 L130,110 L170,70 L210,85 L250,95 L290,120" 
-            fill="none" 
-            stroke="#ec4899" 
-            strokeWidth="3" 
-            strokeLinecap="round" 
+          <Path
+            d="M50,150 L90,130 L130,110 L170,70 L210,85 L250,95 L290,120"
+            fill="none"
+            stroke="#ec4899"
+            strokeWidth="3"
+            strokeLinecap="round"
           />
-          
+
           {/* Data points */}
           <Circle cx="50" cy="150" r="4" fill="#ec4899" />
           <Circle cx="90" cy="130" r="4" fill="#ec4899" />
@@ -93,16 +93,13 @@ const TrendsScreen = () => {
         colors={['#0f172a', '#1e1b4b']}
         style={styles.gradient}
       >
-        <ScrollView 
+        <ScrollView
           style={styles.scrollView}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
           {/* Header */}
           <View style={styles.header}>
-            <TouchableOpacity style={styles.backButton}>
-              <Ionicons name="chevron-back" size={24} color="#fff" />
-            </TouchableOpacity>
             <Text style={styles.headerTitle}>Fatigue Trends</Text>
             <View style={styles.headerSpacer} />
           </View>
@@ -153,9 +150,9 @@ const TrendsScreen = () => {
                 title="Your mental fatigue increases significantly after lunch meetings."
                 description="Consider scheduling important work before lunch."
               />
-              
+
               <View style={styles.insightDivider} />
-              
+
               <InsightCard
                 title="Taking short 5-minute breaks every hour has shown to reduce your afternoon fatigue by 23%."
                 description=""
@@ -173,7 +170,27 @@ const TrendsScreen = () => {
               <Text style={styles.recommendationText}>
                 Based on your patterns, we recommend taking a 10-minute break around 1:30 PM to maintain optimal mental performance.
               </Text>
-              <TouchableOpacity style={styles.recommendationButton}>
+              <TouchableOpacity
+                style={styles.recommendationButton}
+                onPress={() => {
+                  // Get current time and add 10 minutes
+                  const now = new Date();
+                  const alarmTime = new Date(now.getTime() + 10 * 60 * 1000); // Add 10 minutes
+
+                  // Format the time for display
+                  const timeString = alarmTime.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  });
+
+                  alert(`Alarm set for ${timeString} (10 minutes from now)`);
+
+                  // Set a timer for 10 minutes
+                  setTimeout(() => {
+                    alert('Time for your break! Take a 10-minute break to maintain optimal mental performance.');
+                  }, 10 * 60 * 1000); // 600,000 milliseconds = 10 minutes
+                }}
+              >
                 <Text style={styles.recommendationButtonText}>Set Reminder</Text>
               </TouchableOpacity>
             </View>

@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { useFocusEffect } from 'expo-router';
+import { Link, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import {
     SafeAreaView,
@@ -81,10 +81,7 @@ const MindWatchApp = () => {
                         </View>
                         <View style={styles.headerActions}>
                             <TouchableOpacity style={styles.actionButton}>
-                                <Text style={styles.actionIcon}>🔔</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.actionButton}>
-                                <Text style={styles.profileIcon}>JS</Text>
+                                <Link href='/(root)/sign-in'>Sign In</Link>
                             </TouchableOpacity>
                         </View>
                     </View>

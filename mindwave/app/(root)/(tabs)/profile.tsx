@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, StatusBar, Switch, } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { FontAwesome5, MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
+
+import { Link, router } from 'expo-router';
+import { useAuth } from '../../../context/AuthContext';
 
 const ProfileScreen = () => {
+  const { user, logout } = useAuth();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(true);
   const [dataSharingEnabled, setDataSharingEnabled] = useState(true);
@@ -28,11 +32,11 @@ const ProfileScreen = () => {
     </TouchableOpacity>
   );
 
-  const SettingItem = ({ 
-    title, 
-    subtitle, 
-    value, 
-    onValueChange 
+  const SettingItem = ({
+    title,
+    subtitle,
+    value,
+    onValueChange
   }: {
     title: string;
     subtitle: string;
@@ -68,7 +72,7 @@ const ProfileScreen = () => {
         colors={['#0f172a', '#1e1b4b']}
         style={styles.gradient}
       >
-        <ScrollView 
+        <ScrollView
           style={styles.scrollView}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
@@ -86,11 +90,13 @@ const ProfileScreen = () => {
           <View style={styles.profileSection}>
             <View style={styles.profileCard}>
               <View style={styles.avatar}>
-                <Text style={styles.avatarText}>JS</Text>
+                <Text style={styles.avatarText}>
+                  {user?.name ? user.name.substring(0, 2).toUpperCase() : 'U'}
+                </Text>
               </View>
               <View style={styles.profileInfo}>
-                <Text style={styles.profileName}>John Smith</Text>
-                <Text style={styles.profileEmail}>john.smith@example.com</Text>
+                <Text style={styles.profileName}>{user?.name || 'User'}</Text>
+                <Text style={styles.profileEmail}>{user?.email || 'user@example.com'}</Text>
               </View>
             </View>
           </View>
@@ -122,7 +128,7 @@ const ProfileScreen = () => {
                 role="Emergency Contact"
                 iconBg="#6366f1"
               />
-              
+
               <TouchableOpacity style={styles.addContactButton}>
                 <Ionicons name="add" size={20} color="#6366f1" />
                 <Text style={styles.addContactText}>Add Contact</Text>
@@ -167,9 +173,9 @@ const ProfileScreen = () => {
                 </View>
                 <Ionicons name="chevron-forward" size={20} color="#9ca3af" />
               </TouchableOpacity>
-              
+
               <View style={styles.settingDivider} />
-              
+
               <TouchableOpacity style={styles.menuItem}>
                 <View style={styles.menuItemLeft}>
                   <FontAwesome5 name="question-circle" size={18} color="#6366f1" />
@@ -177,10 +183,10 @@ const ProfileScreen = () => {
                 </View>
                 <Ionicons name="chevron-forward" size={20} color="#9ca3af" />
               </TouchableOpacity>
-              
+
               <View style={styles.settingDivider} />
-              
-              <TouchableOpacity style={styles.menuItem}>
+
+              <TouchableOpacity style={styles.menuItem} onPress={() => logout()}>
                 <View style={styles.menuItemLeft}>
                   <FontAwesome5 name="sign-out-alt" size={18} color="#ef4444" />
                   <Text style={[styles.menuItemText, { color: '#ef4444' }]}>Sign Out</Text>
