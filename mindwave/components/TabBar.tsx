@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'rgba(30, 41, 59, 0.4)',
+        backgroundColor: 'rgba(30, 41, 59, 0.7)',
         width: '85%',
         alignSelf: 'center',
         bottom: 30,
