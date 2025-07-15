@@ -10,9 +10,10 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
+        padding: 25,
     },
     scrollContent: {
-        paddingBottom: 30,
+        paddingBottom: 70,
     },
     content: {
         padding: 20,
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginTop: 15,
         marginBottom: 24,
     },
     headerTitle: {

@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-  StatusBar,
-  Dimensions,
-} from 'react-native';
+import {View, Text,StyleSheet,ScrollView,TouchableOpacity,SafeAreaView,StatusBar,Dimensions,} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5, MaterialIcons, Ionicons } from '@expo/vector-icons';
 
@@ -173,7 +164,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 30,
+    paddingBottom: 100,
+    paddingTop: 30,
   },
   header: {
     flexDirection: 'row',
