@@ -10,10 +10,11 @@ import WatchPreview from '../../../components/home/WatchPreview';
 import styles from '../../../styles/mindWatchStyles';
 import { simulateWearableData } from '../../../utils/dataSimulator';
 import { predictMFI } from '../../../utils/mfiPrediction';
-
+import { useAuth } from '../../../context/AuthContext';
 
 
 const MindWatchApp = () => {
+    const { user } = useAuth();
     const baseUrl = 'http://192.168.8.11:8000';
     const [mfiValue, setMfiValue] = useState(0);
     const [averages, setAverages] = useState({});
@@ -76,7 +77,9 @@ const MindWatchApp = () => {
                                 <Text style={styles.actionIcon}>🔔</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.actionButton} onPress={() => router.push('/(root)/profile')}>
-                                <Text style={styles.profileIcon}>JS</Text> 
+                                <Text style={styles.profileIcon}>
+                                    {user?.name ? user.name.substring(0, 2).toUpperCase() : 'U'}
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
