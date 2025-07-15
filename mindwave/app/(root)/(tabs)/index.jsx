@@ -1,15 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    Text,
-    TouchableOpacity,
-    View
-} from 'react-native';
-
+import { SafeAreaView,ScrollView, StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import FatigueMeter from '../../../components/home/FatigueMeter';
 import TrendChart from '../../../components/home/TrendChart';
@@ -76,7 +68,7 @@ const MindWatchApp = () => {
                 >
                     <View style={styles.header}>
                         <View>
-                            <Text style={styles.headerTitle}>MindWatch</Text>
+                            <Text style={styles.headerTitle}>MindWave</Text>
                             <Text style={styles.headerSubtitle}>Your mental wellness companion</Text>
                         </View>
                         <View style={styles.headerActions}>
